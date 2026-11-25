@@ -1,0 +1,51 @@
+{
+    "version": "2.0.0",
+    "options": {
+        "shell": "/bin/bash"
+    },
+    "tasks": [
+        {
+            "label": "编译固件（不碰板子）",
+            "type": "shell",
+            "command": ". ~/esp-idf/export.sh && idf.py -B ~/esp-build-v9 build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "烧录（分块·合规版）",
+            "detail": "先停采集器 → erase_region → flash_chunked.py → 恢复采集器。普通 idf.py flash 写 >100KB 会 USB 断连，不用。",
+            "type": "shell",
+            "command": "PORT=$(ls /dev/cu.usbmodem* 2>/dev/null | head -1); if [ -z \"$PORT\" ]; then echo '✗ 找不到 /dev/cu.usbmodem*（USB 线没接好？）'; exit 1; fi; echo \"串口 $PORT\"; pkill -f serial_logger.py || true; sleep 1; . ~/esp-idf/export.sh && python -m esptool --chip esp32s3 --port \"$PORT\" erase_region 0x20000 0x10000 && python3 desktop/flash_chunked.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "烧录 + 恢复串口采集",
+            "type": "shell",
+            "command": "python3 desktop/flash_chunked.py; python3 desktop/serial_logger.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "串口采集（后台开日志）",
+            "type": "shell",
+            "command": "python3 desktop/serial_logger.py",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "读板子 NVS（解出凭据）",
+            "detail": "nvs_dump.py 会自动让开串口、读完恢复采集器",
+            "type": "shell",
+            "command": "python3 desktop/nvs_dump.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "Mac 端预览（出图）",
+            "type": "shell",
+            "command": "python3 tools/preview.py --state desktop/state.json",
+            "problemMatcher": []
+        }
+    ]
+}

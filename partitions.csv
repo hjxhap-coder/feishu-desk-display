@@ -1,0 +1,19 @@
+# Name,   Type, SubType, Offset,   Size,     Flags
+# NVS 从 24KB 扩到 64KB（2026-11-13）
+#
+# 【为什么必须扩】原来的 24KB = 6 页，装不下实际要存的东西：
+#   phy:cal_data（PHY 校准，ESP-IDF 默认存在 NVS 里） 1~2 页
+#   net80211（WiFi 配置，驱动还会不断追加扫描结果）    1~2 页
+#   lark_rt1 + lark_rt2（RT 对半切，各 ~3450 字符）      2 页
+#   lark_at1 + lark_at2（AT 对半切）                     2 页
+#   小条目（app_id/secret/host/port/tls/at_exp）        1 页
+# 合计 7~8 页 > 6 页 —— 2026-11-09 12:45 板子自动刷新时
+# 写 lark_rt2 失败（NO_SPACE），NVS 里只剩半截 RT，板子从此拿不到 token。
+#
+# 扩到 64KB = 16 页，留足余量（顺带给 WiFi 驱动的扫描结果留空间）。
+# 代价：factory 分区起点从 0x10000 挪到 0x1A000（app 本身才 1.06MB，够用）；
+#      font 分区仍在 0x310000，位置不变。
+nvs,      data, nvs,     0x9000,   0x10000,
+phy_init, data, phy,     0x19000,  0x1000,
+factory,  app,  factory, 0x20000,  0x2F0000,
+font,     data, ,        0x310000, 0x100000,

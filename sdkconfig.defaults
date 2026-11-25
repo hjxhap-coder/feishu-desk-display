@@ -1,0 +1,23 @@
+# This file was generated using idf.py save-defconfig. It can be edited manually.
+# Espressif IoT Development Framework (ESP-IDF) 5.5.1 Project Minimal Configuration
+#
+CONFIG_IDF_TARGET="esp32s3"
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_HTTPD_MAX_REQ_HDR_LEN=512
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_OCT=y
+CONFIG_SPIRAM_SPEED_80M=y
+CONFIG_FATFS_LFN_HEAP=y
+CONFIG_FREERTOS_HZ=1000
+# 串口控制台：wifi <ssid> <pass> / host <ip> / status
+CONFIG_VFS_SUPPORT_IO=y
+# 校时：配两个 NTP 服务器，一个不通还能换
+CONFIG_LWIP_SNTP_MAX_SERVERS=2
+# 证书包补充：这份 IDF 被裁剪过，自带的 cacrt_all.pem 里**没有**
+# DigiCert Global Root G2（飞书用的根证书），HTTPS 握手必然失败
+# (mbedtls_ssl_setup -0x7F00)。这里追加一张从飞书证书链抠出来的根证书
+# （IDF 的 custom bundle 是 append 不是 replace，会和自带的合并）。
+CONFIG_MBEDTLS_CUSTOM_CERTIFICATE_BUNDLE=y
+CONFIG_MBEDTLS_CUSTOM_CERTIFICATE_BUNDLE_PATH="components/shared/certs/ca_extra.pem"

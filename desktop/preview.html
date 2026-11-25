@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>todo screen · 显示方案 v1 / v2 对比</title>
+<style>
+  :root {
+    --bg: #16181c;
+    --card: #1e2126;
+    --line: #2c3037;
+    --txt: #d8dce2;
+    --dim: #8a919b;
+    --accent: #4ade80;
+    --paper: #f2f2f0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--txt);
+    font: 14px/1.6 -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif;
+    padding: 28px 32px 60px;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px; font-weight: 600; }
+  .sub { color: var(--dim); font-size: 13px; margin-bottom: 26px; }
+  .row { display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 34px; }
+  .col { flex: 1 1 380px; min-width: 340px; }
+  .col h2 {
+    font-size: 13px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--dim);
+    margin: 0 0 10px; padding-bottom: 7px; border-bottom: 1px solid var(--line);
+  }
+  .col.v2 h2 { color: var(--accent); }
+  .screens { display: flex; flex-wrap: wrap; gap: 14px; }
+  .scr { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 9px; }
+  .scr img { display: block; width: 400px; height: auto; image-rendering: pixelated; background: var(--paper); }
+  .scr .cap { font-size: 11px; color: var(--dim); margin-top: 7px; letter-spacing: .04em; }
+  .notes { margin-top: 8px; }
+  .notes li { margin: 5px 0; }
+  ul.notes { margin: 0; padding-left: 20px; color: var(--dim); font-size: 13px; }
+  ul.notes b { color: var(--txt); font-weight: 600; }
+  code { background: #2a2e35; padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+  .tag { color: var(--accent); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>todo screen · 显示方案 v1 / v3 对比</h1>
+<div class="sub">
+  ESP32-S3 RLCD 400×300 1-bit　·　三屏：待机 / 待办 / 日程
+ 　·　当前时间 <span id="now"></span>
+</div>
+
+<div class="row">
+  <div class="col">
+    <h2>v1（现行）</h2>
+    <div class="screens">
+      <div class="scr"><img src="out/standby_2x.png" alt=""><div class="cap">待机</div></div>
+      <div class="scr"><img src="out/todo_2x.png" alt=""><div class="cap">待办</div></div>
+      <div class="scr"><img src="out/schedule_2x.png" alt=""><div class="cap">日程</div></div>
+    </div>
+  </div>
+
+  <div class="col v2">
+    <h2>v3（参考图风格）</h2>
+    <div class="screens">
+      <div class="scr"><img src="out/v3/standby_2x.png" alt=""><div class="cap">待机</div></div>
+      <div class="scr"><img src="out/v3/todo_2x.png" alt=""><div class="cap">待办</div></div>
+      <div class="scr"><img src="out/v3/schedule_2x.png" alt=""><div class="cap">日程</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <h2>v3 改了什么</h2>
+    <ul class="notes">
+      <li><b>外边框</b>：整块内容围一圈黑线，屏幕像一块摆件而不是一张截图</li>
+      <li><b>页眉</b>：宋体黑大字 + 右侧时间 + 一条粗横线（三屏统一）</li>
+      <li><b>待办屏</b>：方块进度条 + 复选框 + 优先级实心方点 + <span class="tag">删除线</span>标完成 + 右对齐日期；逾期项自动排到最前</li>
+      <li><b>日程屏</b>：<span class="tag">竖直时间轴</span>（圆点连成一线），进行中的整块反白 + 空心大圈；底部横轴固定 08:00–20:00，事件落成小圆点，「现在」是贯穿的粗竖线</li>
+      <li><b>待机屏</b>：<span class="tag">左侧《快雪时晴帖》局部</span>（黑墨白纸，正是 1-bit 的原生语言），右侧时间 + 倒计时 + 今日概览</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h2>没变的（刻意保留）</h2>
+    <ul class="notes">
+      <li>排版全在 Mac 上做，板子只贴 15000 字节的 1-bit 帧</li>
+      <li>11px 可读下限，小字自动提到 W6 —— 1-bit 上细笔画会被阈值化打散</li>
+      <li>层次只靠<b>反白 / 分隔线粗细 / 字重 / 留白</b>，不靠颜色</li>
+      <li>底部反白按键条只放在待机屏（它是首页），另两屏靠页眉标识自己在哪</li>
+      <li>日程事件多到 8 条以上时，副行自动让位、只保标题，底部提示「还有 N 项」—— 1-bit 400×300 是硬边界</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  const tick = () => {
+    const d = new Date();
+    document.getElementById('now').textContent =
+      d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0') + ' ' +
+      String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  };
+  tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>

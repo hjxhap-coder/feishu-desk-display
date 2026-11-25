@@ -1,0 +1,125 @@
+{
+  "updated_at": "2026-01-15 10:05",
+  "user": "demo",
+  "tasks": [
+    {
+      "text": "整理本周工作周报",
+      "done": false,
+      "pri": "high",
+      "due": "今天"
+    },
+    {
+      "text": "代码评审：固件网络自愈模块",
+      "done": false,
+      "pri": "high",
+      "due": "今天"
+    },
+    {
+      "text": "结算明细按客户任务号口径重算",
+      "done": false,
+      "pri": "",
+      "due": "明天"
+    },
+    {
+      "text": "回复客户：交付清单与验收口径确认",
+      "done": false,
+      "pri": "",
+      "due": ""
+    },
+    {
+      "text": "质检通过率差距说明",
+      "done": false,
+      "pri": "",
+      "due": "01-24"
+    },
+    {
+      "text": "整理 Prompt 可用性待复核清单",
+      "done": true,
+      "pri": "low",
+      "due": ""
+    },
+    {
+      "text": "备份项目资产索引",
+      "done": false,
+      "pri": "low",
+      "due": ""
+    },
+    {
+      "text": "更新 wiki 闭环记录",
+      "done": false,
+      "pri": "low",
+      "due": ""
+    }
+  ],
+  "events": [
+    {
+      "title": "站会",
+      "start": 1768438800,
+      "end": 1768440600,
+      "start_ts": 1768438800,
+      "end_ts": 1768440600,
+      "start_hm": "09:00",
+      "end_hm": "09:30",
+      "location": "",
+      "now": false,
+      "next": false
+    },
+    {
+      "title": "产品评审",
+      "start": 1768442400,
+      "end": 1768446000,
+      "start_ts": 1768442400,
+      "end_ts": 1768446000,
+      "start_hm": "10:00",
+      "end_hm": "11:00",
+      "location": "会议室 A",
+      "now": true,
+      "next": false
+    },
+    {
+      "title": "与同事 1:1",
+      "start": 1768456800,
+      "end": 1768458600,
+      "start_ts": 1768456800,
+      "end_ts": 1768458600,
+      "start_hm": "14:00",
+      "end_hm": "14:30",
+      "location": "线上",
+      "now": false,
+      "next": false
+    },
+    {
+      "title": "口径对齐",
+      "start": 1768464000,
+      "end": 1768466700,
+      "start_ts": 1768464000,
+      "end_ts": 1768466700,
+      "start_hm": "16:00",
+      "end_hm": "16:45",
+      "location": "会议室 B",
+      "now": false,
+      "next": false
+    }
+  ],
+  "next_event": {
+    "title": "产品评审",
+    "start": 1768442400,
+    "end": 1768446000,
+    "start_ts": 1768442400,
+    "end_ts": 1768446000,
+    "start_hm": "10:00",
+    "end_hm": "11:00",
+    "location": "会议室 A",
+    "now": true,
+    "next": false
+  },
+  "open_tasks": 7,
+  "total_tasks": 8,
+  "ok_tasks": true,
+  "ok_events": true,
+  "errors": {},
+  "mock": {
+    "tasks": true,
+    "events": true
+  }
+}

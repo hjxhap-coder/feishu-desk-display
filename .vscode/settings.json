@@ -1,0 +1,22 @@
+{
+    "idf.adapterTargetName": "esp32s3",
+    "idf.buildPath": "${workspaceFolder}/build",
+    "idf.espIdfPath": "${env:IDF_PATH}",
+    "idf.pythonBinPath": "${env:IDF_PYTHON_ENV_PATH}/bin/python3",
+    "idf.toolsPath": "${env:IDF_TOOLS_PATH}",
+    "clangd.arguments": [
+        "--background-index",
+        "--clang-tidy=false",
+        "--header-insertion=never",
+        "--query-driver=${env:IDF_TOOLS_PATH}/tools/xtensa-esp-elf/esp-13.2.0_20240530/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc"
+    ],
+    "files.exclude": {
+        "**/build": true,
+        "**/__pycache__": true
+    },
+    "files.associations": {
+        "*.h": "c",
+        "*.cpp": "cpp"
+    },
+    "C_Cpp.default.compilerPath": "${env:IDF_TOOLS_PATH}/tools/xtensa-esp-elf/esp-13.2.0_20240530/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc"
+}

@@ -1,0 +1,54 @@
+{
+    "version": "2.0.0",
+    "options": {
+        "shell": "/bin/bash"
+    },
+    "tasks": [
+        {
+            "label": "拉取板子状态（读板子自己的输出）",
+            "detail": "Mac 端不需要飞书 token —— state.json 直接从板子串口输出里取",
+            "type": "shell",
+            "command": "cd ${workspaceFolder} && python3 pull_state.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "渲染预览（v3 设计规范）",
+            "type": "shell",
+            "command": "cd ${workspaceFolder} && python3 render_v3.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "启动预览服务",
+            "type": "shell",
+            "command": "cd ${workspaceFolder} && python3 serve_screen.py --renderer v3",
+            "problemMatcher": []
+        },
+        {
+            "label": "串口采集（日志 → /tmp/board_serial.log）",
+            "type": "shell",
+            "command": "cd ${workspaceFolder} && python3 serial_logger.py",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "读板子 NVS（解出凭据）",
+            "detail": "nvs_dump.py 会自动让开串口、读完恢复采集器",
+            "type": "shell",
+            "command": "cd ${workspaceFolder} && python3 nvs_dump.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "灌 NVS（WiFi + 飞书凭据）",
+            "type": "shell",
+            "command": "cd ${workspaceFolder} && python3 write_nvs.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "核对字库字形覆盖率",
+            "detail": "改完 emoji 替代表必跑：确认每个目标码位在 font16.bin 里真的存在",
+            "type": "shell",
+            "command": "cd ${workspaceFolder} && python3 check_glyphs.py",
+            "problemMatcher": []
+        }
+    ]
+}

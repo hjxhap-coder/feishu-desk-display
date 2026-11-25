@@ -1,0 +1,23 @@
+# 编译产物
+out/
+logs/
+build/
+managed_components/
+compile_commands.json
+*.bin
+*.elf
+*.map
+
+# 凭据 —— 绝对不能进库
+# config.local.json 是本机配置（含 WiFi 密码 / app_secret），
+# 模板见 config.example.json
+config.local.json
+board_token*
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+
+.DS_Store

@@ -1,0 +1,16 @@
+{
+    "idf.adapterTargetName": "esp32s3",
+    "idf.buildPath": "${workspaceFolder}/build",
+    "idf.espIdfPath": "${env:IDF_PATH}",
+    "idf.pythonBinPath": "${env:IDF_PYTHON_ENV_PATH}/bin/python3",
+    "idf.toolsPath": "${env:IDF_TOOLS_PATH}",
+    "clangd.arguments": [
+        "--background-index",
+        "--clang-tidy=false",
+        "--header-insertion=never"
+    ],
+    "files.associations": {
+        "*.h": "c",
+        "*.csv": "csv-preview"
+    }
+}
